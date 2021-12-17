@@ -73,21 +73,6 @@ export interface CreateLocalTracksOptions {
   video?: boolean | VideoCaptureOptions;
 }
 
-export interface VideoCaptureOptions {
-  /**
-   * A ConstrainDOMString object specifying a device ID or an array of device
-   * IDs which are acceptable and/or required.
-   */
-  deviceId?: ConstrainDOMString;
-
-  /**
-   * a facing or an array of facings which are acceptable and/or required.
-   */
-  facingMode?: 'user' | 'environment' | 'left' | 'right';
-
-  resolution?: VideoResolution;
-}
-
 export interface ScreenShareCaptureOptions {
   /**
    * true to capture audio shared. browser support for audio capturing in
@@ -99,49 +84,23 @@ export interface ScreenShareCaptureOptions {
   resolution?: VideoResolution;
 }
 
-export interface AudioCaptureOptions {
-  /**
-   * specifies whether automatic gain control is preferred and/or required
-   */
-  autoGainControl?: ConstrainBoolean;
-
-  /**
-   * the channel count or range of channel counts which are acceptable and/or required
-   */
-  channelCount?: ConstrainULong;
-
-  /**
-   * A ConstrainDOMString object specifying a device ID or an array of device
-   * IDs which are acceptable and/or required.
-   */
-  deviceId?: ConstrainDOMString;
-
-  /**
-   * whether or not echo cancellation is preferred and/or required
-   */
-  echoCancellation?: ConstrainBoolean;
-
-  /**
-   * the latency or range of latencies which are acceptable and/or required.
-   */
-  latency?: ConstrainDouble;
-
-  /**
-   * whether noise suppression is preferred and/or required.
-   */
-  noiseSuppression?: ConstrainBoolean;
-
-  /**
-   * the sample rate or range of sample rates which are acceptable and/or required.
-   */
-  sampleRate?: ConstrainULong;
-
-  /**
-   * sample size or range of sample sizes which are acceptable and/or required.
-   */
-  sampleSize?: ConstrainULong;
+interface VideoTrackConstraints {
+  facingMode: ConstrainDOMString,
+  width: ConstrainULong,
+  height: ConstrainULong,
+  aspectRatio: ConstrainDouble,
+  frameRate: ConstrainULong,
 }
 
+interface CommonMediaTrackConstraints {
+  deviceId: ConstrainDOMString;
+}
+
+export type VideoCaptureOptions = Pick<
+MediaTrackConstraints,
+keyof (CommonMediaTrackConstraints & VideoTrackConstraints)
+>;
+export type AudioCaptureOptions = Omit<MediaTrackConstraints, keyof VideoTrackConstraints>;
 export interface VideoResolution {
   width: number;
   height: number;
