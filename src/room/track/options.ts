@@ -143,10 +143,10 @@ export interface AudioCaptureOptions {
 }
 
 export interface VideoResolution {
-  width: number;
-  height: number;
-  frameRate?: number;
-  aspectRatio?: number;
+  width: ConstrainULong;
+  height: ConstrainULong;
+  frameRate?: ConstrainULong;
+  aspectRatio?: ConstrainDouble;
 }
 
 export interface VideoEncoding {
